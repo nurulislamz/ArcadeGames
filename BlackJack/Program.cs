@@ -98,4 +98,60 @@ public class Deck
             return false;
         }
     }
+
+    public class Player
+    {
+        string playerName {get; set;}
+        List<Card> hand {get; set;}
+        int total {get; set;} = 0;
+        int score {get; set;} = 0;
+        
+        public Player(string PlayerName)
+        {
+            this.playerName = PlayerName;
+        }
+        
+        public Card AddCardToHand(Card card)
+        {
+            hand.Add(card);
+            return Card;
+        }
+
+        public CalculateHand(Card card)
+        {
+            total += card;
+        }
+    }
+
+    public class Game
+    {
+        Player player{get; set;}
+        Player computer{get; set;}
+        
+        public Game()
+        {
+            // Play Game
+            Console.Write("Playing BlackJack");
+
+            string playerName = "Player1";
+            while (!string.TryParse(Console.Readline(), out string playerName))
+            {
+                Console.Write($"Player Name is {playerName}");
+            }
+
+        }
+
+        public PlayerTurn()
+        {
+            
+        }
+        
+
+        public ComputerTurn();
+
+        
+            Console.Write("Player1s Turn");
+            
+        
+    }
 }
