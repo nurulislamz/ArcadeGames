@@ -126,32 +126,37 @@ public class Deck
     public class Game
     {
         Player player{get; set;}
-        Player computer{get; set;}
+        Player computer{
+            get; 
+            set 
+            {
+                computer = new Player("Computer");    
+            }
+        }
         
         public Game()
         {
             // Play Game
             Console.Write("Playing BlackJack");
-
+            
             string playerName = "Player1";
             while (!string.TryParse(Console.Readline(), out string playerName))
             {
+                player = new Player(playerName);
                 Console.Write($"Player Name is {playerName}");
             }
 
+            while CheckGameWin()
+            {
+            }
         }
 
-        public PlayerTurn()
+        public void PlayRound(Player player)
         {
-            
+               
         }
-        
 
-        public ComputerTurn();
+        public void CheckGameWin
 
         
-            Console.Write("Player1s Turn");
-            
-        
-    }
 }
