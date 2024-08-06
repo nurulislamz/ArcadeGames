@@ -145,6 +145,20 @@ public class Deck
                 player = new Player(playerName);
                 Console.Write($"Player Name is {playerName}");
             }
+            
+            // Draw or Stay
+            Console.Write("Draw [D] or Stay [S]");
+
+            switch (Console.ReadKey().Key)
+            {
+                case ConsoleKey.D:
+                    DrawCard();
+                case ConsoleKey.S:
+                    CheckWin();
+                default:
+                    "Incorrect input, try again";
+            }
+            
 
             while CheckGameWin()
             {
@@ -156,7 +170,16 @@ public class Deck
                
         }
 
-        public void CheckGameWin
+        public Player? CheckGameWin()
+        {
+            if (player.total == 21 || computer.total > 21) player.score += 1;
+            if (computer.total == 21 || player.total > 21) computer.score += 1;
+
+            if (player.total - 21 < computer.total - 21) return player;
+            else if (computer.total - 21 < player.total - 21) return computer;
+            else return "draw";        
+
+        }
 
         
 }
