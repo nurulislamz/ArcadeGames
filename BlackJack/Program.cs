@@ -62,11 +62,14 @@ public class Deck
 
     public Deck()
     {
+        deck = new List<Card>();
+       
         foreach (CardSuits suits in Enum.GetValues(typeof(CardSuits)))
         {
             foreach (CardNumber number in Enum.GetValues(typeof(CardNumber)))
             {
-                deck.Add(new Card(suits, number));
+                Card card = new Card(suits, number);
+                deck.Add(card);
             }
         }
     }
@@ -147,27 +150,32 @@ public class Game
     Player player2 { get; set; }
     Deck deck { get; set; }
 
-    int rounds {get; set;}
+    int rounds { get; set; } = 3;
 
     public Game()
     {
         // Play Game
-        Console.Write("Playing BlackJack");
+        Console.WriteLine("Playing BlackJack:");
 
         deck = new Deck();
 
-        string player1Name = "Player1";
-        while (!string.IsNullOrEmpty(Console.ReadLine()))
+        string? player1Name = null;
+        Console.WriteLine("Enter Player1Name: ");
+        while (string.IsNullOrEmpty(player1Name))
         {
+            player1Name = Console.ReadLine();
             player1 = new Player(player1Name);
-            Console.Write($"Player Name is {player1Name}");
+            Console.WriteLine($"Player1 Name is {player1Name}");
         }
 
-        string player2Name = "Player1";
-        while (!string.IsNullOrEmpty(Console.ReadLine()))
+
+        string? player2Name = null;
+        Console.WriteLine("Enter Player2Name: ");
+        while (string.IsNullOrEmpty(player2Name))
         {
-            player2 = new Player(player2Name);
-            Console.Write($"Player Name is {player2Name}");
+            player2Name = Console.ReadLine();
+            player1 = new Player(player2Name);
+            Console.WriteLine($"Player1 Name is {player2Name}");
         }
 
         for (int i = 0; i < rounds; i++) 
@@ -273,7 +281,7 @@ public class Game
 
 public class Program
 {
-    public void Main()
+    public static void Main()
     {
         Game game = new Game(); 
     }
