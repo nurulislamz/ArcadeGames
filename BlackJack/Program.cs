@@ -5,7 +5,7 @@ public enum CardNumber
     Ace = 1,
     Two = 2,
     Three = 3,
-    Fou = 4,
+    Four = 4,
     Five = 5,
     Six = 6,
     Seven = 7,
@@ -82,10 +82,14 @@ public class Deck
         }
 
         Random random = new Random();
-        CardSuits suits = (CardSuits)random.Next(0, 3);
-        CardNumber numbers = (CardNumber)random.Next(0, 11);
 
-        Card card = new Card(suits, numbers);
+        Array suits = Enum.GetValues(typeof(CardSuits));
+        CardSuits suit = (CardSuits) suits.GetValue(random.Next(suits.Length));
+	
+	Array numbers = Enum.GetValues(typeof(CardNumber));
+        CardNumber number = (CardNumber) numbers.GetValue(random.Next(numbers.Length));
+
+        Card card = new Card(suit, number);
 
         if (RemoveCardFromDeck(card)) return card;
         else
@@ -118,6 +122,7 @@ public class Player
     public Player(string PlayerName)
     {
         this.playerName = PlayerName;
+        this.hand = new List<Card>();
     }
 
     public Card AddCardToHand(Card card)
@@ -135,13 +140,20 @@ public class Player
 
     public void PrintHand()
     {
+        Console.WriteLine($"Card in {playerName} hands:");
         foreach(Card card in hand)
         {
-            Console.WriteLine("Card in your hands:");
             Console.WriteLine(card.PrintCards());
         }
-
     }
+    
+    public void ResetHand()
+    {
+        hand = new List<Card>();
+        total = 0;
+    }
+
+    public int IncrementScore() => score += 1;
 }
 
 public class Game
@@ -160,28 +172,41 @@ public class Game
         deck = new Deck();
 
         string? player1Name = null;
-        Console.WriteLine("Enter Player1Name: ");
         while (string.IsNullOrEmpty(player1Name))
         {
+            Console.WriteLine("Enter Player1Name: ");
             player1Name = Console.ReadLine();
-            player1 = new Player(player1Name);
-            Console.WriteLine($"Player1 Name is {player1Name}");
-        }
 
+            if (string.IsNullOrEmpty(player1Name))
+            {
+                Console.WriteLine("Invalid Input");
+            }
+            player1 = new Player(player1Name);
+        }
+        Console.WriteLine($"Player1 Name: {player1Name}");
 
         string? player2Name = null;
-        Console.WriteLine("Enter Player2Name: ");
-        while (string.IsNullOrEmpty(player2Name))
+        while (player2Name == null)
         {
+            Console.WriteLine("Enter Player2Name: ");
             player2Name = Console.ReadLine();
-            player1 = new Player(player2Name);
-            Console.WriteLine($"Player1 Name is {player2Name}");
-        }
 
+            if (string.IsNullOrEmpty(player2Name))
+            {
+                Console.WriteLine("Invalid Input");
+            }
+            player2 = new Player(player2Name);
+        }
+        Console.WriteLine($"Player2 Name: {player2Name}");
+       
         for (int i = 0; i < rounds; i++) 
         {
             Player winner = PlayGame();
             Console.WriteLine($"{winner.playerName} won.");
+            winner.score += 1;
+            player1.ResetHand();
+            player2.ResetHand();
+
             Console.WriteLine($"{player1.playerName}: {player1.score}");
             Console.WriteLine($"{player2.playerName}: {player2.score}");
         }
@@ -191,7 +216,10 @@ public class Game
     {
         while (true)
         {
+            Console.WriteLine("Player1 Turn");
             PlayRound(player1);
+
+            Console.WriteLine("Player2 Turn");
             PlayRound(player2);
 
             Player winner;
@@ -218,7 +246,7 @@ public class Game
     public void PlayRound(Player player)
     {
         // Draw or Stay
-        Console.Write($"{player.playerName}: Draw [D] or Stay [S]");        
+        Console.WriteLine($"{player.playerName}: Draw [D] or Stay [S]");        
         
         string input;
         while ((input = Console.ReadLine()) != "d" && input != "s")
@@ -232,14 +260,22 @@ public class Game
                 Console.WriteLine("Stand. Did not draw.");
                 break;
             case "d": 
-                Console.WriteLine("Draw Card from Deck.");
+                Console.WriteLine("Drawing Card from Deck.");
                 Card pickUp = deck.GetRandomCardFromDeck();
+
+                deck.RemoveCardFromDeck(pickUp);
                 Console.WriteLine($"You picked this card: {pickUp.PrintCards()}");
+
                 player.AddCardToHand(pickUp);
+                player.PrintHand();
                 Console.WriteLine($"Your total so far: {player.total}");
+                
+	        Console.WriteLine();
+		Console.WriteLine();
                 break;
             default:
                 Console.Write("Incorrect input, try again");
+                Console.WriteLine($"{player.playerName}: Draw [D] or Stay [S]");        
                 break;
         }
     }
