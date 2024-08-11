@@ -35,7 +35,7 @@ public class Card
         this.cardSuit = cardSuits;
         this.cardNumber = cardNumber;
     }
-    
+
     public string PrintCards()
     {
         return $"{this.cardSuit}: {this.cardNumber}";
@@ -51,8 +51,8 @@ public class Card
             if (result1 <= 21) return result1;
             else return result2;
         }
-        
-        return a + (int) b.cardNumber;
+
+        return a + (int)b.cardNumber;
     }
 }
 
@@ -73,9 +73,14 @@ public class Deck
 
     public Card GetRandomCardFromDeck()
     {
+        if (deck.Count == 0)
+        {
+            throw new Exception("Empty Deck");
+        }
+
         Random random = new Random();
-        CardSuits suits = (CardSuits) random.Next(0, 3);
-        CardNumber numbers = (CardNumber) random.Next(0, 11);
+        CardSuits suits = (CardSuits)random.Next(0, 3);
+        CardNumber numbers = (CardNumber)random.Next(0, 11);
 
         Card card = new Card(suits, numbers);
 
@@ -98,88 +103,178 @@ public class Deck
             return false;
         }
     }
+}
 
-    public class Player
+public class Player
+{
+    public string playerName { get; set; }
+    public List<Card> hand { get; set; }
+    public int total { get; set; } = 0;
+    public int score { get; set; } = 0;
+
+    public Player(string PlayerName)
     {
-        string playerName {get; set;}
-        List<Card> hand {get; set;}
-        int total {get; set;} = 0;
-        int score {get; set;} = 0;
-        
-        public Player(string PlayerName)
+        this.playerName = PlayerName;
+    }
+
+    public Card AddCardToHand(Card card)
+    {
+        hand.Add(card);
+        UpdateTotal(card);
+        return card;
+    }
+
+    public int UpdateTotal(Card card)
+    {
+        total += card;
+        return total;
+    }
+
+    public void PrintHand()
+    {
+        foreach(Card card in hand)
         {
-            this.playerName = PlayerName;
-        }
-        
-        public Card AddCardToHand(Card card)
-        {
-            hand.Add(card);
-            return Card;
+            Console.WriteLine("Card in your hands:");
+            Console.WriteLine(card.PrintCards());
         }
 
-        public CalculateHand(Card card)
+    }
+}
+
+public class Game
+{
+    Player player1 { get; set; }
+    Player player2 { get; set; }
+    Deck deck { get; set; }
+
+    int rounds {get; set;}
+
+    public Game()
+    {
+        // Play Game
+        Console.Write("Playing BlackJack");
+
+        deck = new Deck();
+
+        string player1Name = "Player1";
+        while (!string.IsNullOrEmpty(Console.ReadLine()))
         {
-            total += card;
+            player1 = new Player(player1Name);
+            Console.Write($"Player Name is {player1Name}");
+        }
+
+        string player2Name = "Player1";
+        while (!string.IsNullOrEmpty(Console.ReadLine()))
+        {
+            player2 = new Player(player2Name);
+            Console.Write($"Player Name is {player2Name}");
+        }
+
+        for (int i = 0; i < rounds; i++) 
+        {
+            Player winner = PlayGame();
+            Console.WriteLine($"{winner.playerName} won.");
+            Console.WriteLine($"{player1.playerName}: {player1.score}");
+            Console.WriteLine($"{player2.playerName}: {player2.score}");
         }
     }
 
-    public class Game
+    public Player PlayGame()
     {
-        Player player{get; set;}
-        Player computer{
-            get; 
-            set 
+        while (true)
+        {
+            PlayRound(player1);
+            PlayRound(player2);
+
+            Player winner;
+            
+            if (IsDraw())
             {
-                computer = new Player("Computer");    
+                Console.WriteLine("Draw. Play again.");
+            }
+            else if (CheckIfTotalIs17OrMore())
+            {
+                Console.WriteLine("Card total is less than 17. Draw again.");
+            }
+            else if ((winner = CheckGameWin()) != null)
+            {
+                return winner;
+            }
+            else
+            {
+                throw new Exception("WTF happened?");
             }
         }
+    }
+
+    public void PlayRound(Player player)
+    {
+        // Draw or Stay
+        Console.Write($"{player.playerName}: Draw [D] or Stay [S]");        
         
-        public Game()
+        string input;
+        while ((input = Console.ReadLine()) != "d" && input != "s")
         {
-            // Play Game
-            Console.Write("Playing BlackJack");
-            
-            string playerName = "Player1";
-            while (!string.TryParse(Console.Readline(), out string playerName))
-            {
-                player = new Player(playerName);
-                Console.Write($"Player Name is {playerName}");
-            }
-            
-            // Draw or Stay
-            Console.Write("Draw [D] or Stay [S]");
-
-            switch (Console.ReadKey().Key)
-            {
-                case ConsoleKey.D:
-                    DrawCard();
-                case ConsoleKey.S:
-                    CheckWin();
-                default:
-                    "Incorrect input, try again";
-            }
-            
-
-            while CheckGameWin()
-            {
-            }
+            Console.WriteLine("Incorrect input"); 
         }
 
-        public void PlayRound(Player player)
+        switch (input)
         {
-               
+            case "s":
+                Console.WriteLine("Stand. Did not draw.");
+                break;
+            case "d": 
+                Console.WriteLine("Draw Card from Deck.");
+                Card pickUp = deck.GetRandomCardFromDeck();
+                Console.WriteLine($"You picked this card: {pickUp.PrintCards()}");
+                player.AddCardToHand(pickUp);
+                Console.WriteLine($"Your total so far: {player.total}");
+                break;
+            default:
+                Console.Write("Incorrect input, try again");
+                break;
+        }
+    }
+
+    public bool IsDraw()
+    {
+        if (player1.score == 21 && player2.score == 21) return true;
+        else return false;
+    }
+
+    public bool CheckIfTotalIs17OrMore()
+    {
+        if (player1.total < 17 || player2.total < 17) return true;
+        else return false;
+    }
+    public Player CheckGameWin()
+    {
+        if (player1.total == 21)
+        {
+            Console.WriteLine($"{player1.playerName}: BLACKJACK! Scored 21.");
+            return player1;
         }
 
-        public Player? CheckGameWin()
+        if (player2.total == 21)
         {
-            if (player.total == 21 || computer.total > 21) player.score += 1;
-            if (computer.total == 21 || player.total > 21) computer.score += 1;
-
-            if (player.total - 21 < computer.total - 21) return player;
-            else if (computer.total - 21 < player.total - 21) return computer;
-            else return "draw";        
-
+            Console.WriteLine($"{player2.playerName}: BLACKJACK! Scored 21.");
+            return player2;
         }
 
-        
+        if (player1.total > 21) return player2;
+        if (player2.total > 21) return player1;
+
+        if (player1.total - 21 < player2.total - 21) return player1;
+        else if (player2.total - 21 < player1.total - 21) return player2;
+        else throw new Exception("Something went wrong in CheckGameWin");
+    }
+}
+
+
+public class Program
+{
+    public void Main()
+    {
+        Game game = new Game(); 
+    }
 }
