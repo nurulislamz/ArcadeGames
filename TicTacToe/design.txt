@@ -1,6 +1,12 @@
 High Level Design
 - Going to create this project in react and typescript
 
+- Game Logic Folder
+-- Holds the game Logic
+
+- Componenets Folder
+-- Holds Game UI Components
+
 -- Two players, one is a X and one is a O
 -- Grid displayed, each player clicks onto a Grid
 -- Winner gets a point
@@ -30,9 +36,6 @@ Game
 -- Creates a game 
 --- Consists of 2 Player classes
 --- Consists of 2 Squares
-
-
-
 
 Maybe try adding animations to make it cool, like winner animation. 
 
