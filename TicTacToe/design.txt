@@ -37,6 +37,19 @@ Game
 --- Consists of 2 Player classes
 --- Consists of 2 Squares
 
+LandingPageUI
+- LandingPage
+- Choose X or O
+- Start Game
+
+SquareUI
+- Clickable box
+- Shows box and changes colour
+- Animation??
+
+GridUI
+- Combine multiple squares
+
 Maybe try adding animations to make it cool, like winner animation. 
 
 How about difficulties?? against an AI
