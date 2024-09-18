@@ -1,8 +1,7 @@
-enum MarkersEnum
-{
-  X,
-  O, 
-  Empty
+enum MarkersEnum {
+  Empty = "",
+  X = "X",
+  O = "O",
 }
 
 export default MarkersEnum;

@@ -1,20 +1,21 @@
-class Players
-{
-  private score : number; 
-  public mark: string
+import IPlayer from "../interfaces/IPlayer";
+import MarkersEnum from "./MarkersEnum";
 
-  constructor(_mark: string){
-    this.score = 0;
-    this.mark = _mark
+class Player implements IPlayer {
+  private score: number = 0;
+  public readonly mark: MarkersEnum;
+
+  constructor(mark: MarkersEnum) {
+    this.mark = mark;
   }
 
-  private incrementScore(){
+  public incrementScore(): void {
     this.score++;
   }
-  
+
   public getScore(): number {
     return this.score;
-  } 
+  }
 }
 
-export default Players;
+export default Player;

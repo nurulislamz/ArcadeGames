@@ -1,82 +1,80 @@
-import React from 'react';
-import './App.css';
-import Squares from './Square';
-import Players from './Players';
-import MarkersEnum from './MarkersEnum';
-import { error } from 'console';
+// Grid.ts
+import IGrid from "../interfaces/IGrid";
+import MarkersEnum from "./MarkersEnum";
 
-class Grid 
-{
+class Grid implements IGrid {
+  public grid: MarkersEnum[][];
 
-  rows = 3;
-  cols = 3;
-  grid : Squares[][];
+  constructor() {
+    this.grid = Array.from({ length: 3 }, () =>
+      Array.from({ length: 3 }, () => MarkersEnum.Empty)
+    );
+  }
 
-  constructor(){
-    this.grid = [];
+  isSquareEmpty(row: number, col: number): boolean {
+    return this.grid[row][col] === MarkersEnum.Empty;
+  }
 
-    for (let i = 0; i < this.rows; i++){
-      for (let j = 0; j < this.cols; j++){
-        this.grid[i][j] = new Squares();
-      }
+  getMarkAt(row: number, col: number): MarkersEnum {
+    return this.grid[row][col];
+  }
+
+  setMarkAt(row: number, col: number, mark: MarkersEnum): void {
+    if (!this.isSquareEmpty(row, col)) {
+      throw new Error("Square is already occupied.");
     }
+    this.grid[row][col] = mark;
   }
 
-  public CheckSquareEmpty(row: number, col: number): boolean {
-    return this.grid[row][col].mark == MarkersEnum.Empty;
-  }
-
-  public GetGrid(row: number, col: number) : MarkersEnum {
-    return this.grid[row][col].mark;
-  }
-
-  public SetGrid(row: number, col: number, playerSymbol : MarkersEnum) : void {
-    if (this.CheckSquareEmpty(row, col)) throw error("Square is not empty. Pick another square.");
-    this.grid[row][col].SelectSquare(playerSymbol);
-  }
-
-  public CheckWin(): MarkersEnum {
-    
-    let count = 0;
-    // check column
-    for (let i = 0; i < 3; i++){
-      count = 0;
-      for (let j  = 1; j < 3; j++){
-        if (this.grid[i][j] == this.grid[i][j-1]) count++;
-        if (count == 3) return this.grid[i][j].mark;
-        else break;
-      }
-    }
-    
-    // check rows
-    for (let j = 0; j < 3; j++){
-      count = 0;
-      for (let i = 1; i < 3; i++){
-        if (this.grid[j][i] == this.grid[j][i-1]) count++;
-        if (count == 3) return this.grid[j][i].mark;
-        else break;
+  checkWin(): MarkersEnum | null {
+    // Check rows
+    for (let i = 0; i < 3; i++) {
+      if (
+        this.grid[i][0] !== MarkersEnum.Empty &&
+        this.grid[i][0] === this.grid[i][1] &&
+        this.grid[i][1] === this.grid[i][2]
+      ) {
+        return this.grid[i][0];
       }
     }
 
-    // check diagonals
-    count = 0;
-    for (let i = 1; i < 3; i++){
-      if (this.grid[i][i] == this.grid[i-1][i-1]) count++;
-      if (count == 3) return this.grid[i][i].mark;
-      else break;
-    }
-
-    // check anti-diagonals
-    count = 0;
-    for (let j = 2; j > 0; j--){
-      for (let i = 0; i < 3; i++){
-        if (this.grid[i][j] == this.grid[i-1][j-1]) count++;
-        if (count == 3) return this.grid[i][j].mark;
-        else break;
+    // Check columns
+    for (let j = 0; j < 3; j++) {
+      if (
+        this.grid[0][j] !== MarkersEnum.Empty &&
+        this.grid[0][j] === this.grid[1][j] &&
+        this.grid[1][j] === this.grid[2][j]
+      ) {
+        return this.grid[0][j];
       }
     }
 
-    return MarkersEnum.Empty;
+    // Check main diagonal
+    if (
+      this.grid[0][0] !== MarkersEnum.Empty &&
+      this.grid[0][0] === this.grid[1][1] &&
+      this.grid[1][1] === this.grid[2][2]
+    ) {
+      return this.grid[0][0];
+    }
+
+    // Check anti-diagonal
+    if (
+      this.grid[0][2] !== MarkersEnum.Empty &&
+      this.grid[0][2] === this.grid[1][1] &&
+      this.grid[1][1] === this.grid[2][0]
+    ) {
+      return this.grid[0][2];
+    }
+
+    // No winner
+    return null;
+  }
+
+  isFull(): boolean {
+    return this.grid.every((row) =>
+      row.every((cell) => cell !== MarkersEnum.Empty)
+    );
   }
 }
 
