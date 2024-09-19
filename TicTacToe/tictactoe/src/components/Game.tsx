@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import MarkersEnum from "../logic/MarkersEnum";
 import Square from "./Square";
-import "./Game.css"; // Optional: For styling
 
 interface GameProps {
   player1Mark: MarkersEnum;

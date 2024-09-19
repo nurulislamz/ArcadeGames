@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import MarkersEnum from "../logic/MarkersEnum";
 import Game from "./Game";
-import "./LandingPage.css"; // Optional: For styling
 
 interface GameState {
   gameOn: boolean;
@@ -56,10 +55,8 @@ const LandingPage: React.FC = () => {
   };
 
   useEffect(() => {
-    if (gameState.gameOn) {
-      console.log(`${gameState.player1Mark} is Player 1`);
-      console.log(`${gameState.player2Mark} is Player 2`);
-    }
+    console.log(`${gameState.player1Mark} is Player 1`);
+    console.log(`${gameState.player2Mark} is Player 2`);
   }, [gameState.gameOn, gameState.player1Mark, gameState.player2Mark]);
 
   return (
