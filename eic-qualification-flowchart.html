@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="England qualification pathway for issuing EICs and EICRs">
+  <title>EIC & EICR qualification pathway — England</title>
+  <style>
+    :root {
+      --ink: #15251f;
+      --muted: #52635c;
+      --paper: #f7faf8;
+      --card: #ffffff;
+      --line: #a7b9b1;
+      --green: #0b7551;
+      --green-dark: #07513a;
+      --green-pale: #e5f5ee;
+      --amber: #9a5b00;
+      --amber-pale: #fff2d5;
+      --blue: #175b8c;
+      --blue-pale: #e7f3fb;
+      --red: #a33333;
+      --red-pale: #fdeaea;
+      --shadow: 0 12px 35px rgba(24, 53, 42, .10);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 10% 0%, #dff4e9 0, transparent 28rem),
+        radial-gradient(circle at 95% 15%, #e4f2fa 0, transparent 25rem),
+        var(--paper);
+      font: 16px/1.45 Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .toolbar {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      display: flex;
+      justify-content: flex-end;
+      gap: .65rem;
+      max-width: 1180px;
+      margin: auto;
+      padding: .9rem 1.25rem 0;
+    }
+
+    button {
+      border: 1px solid #bdd0c7;
+      border-radius: 999px;
+      padding: .68rem 1rem;
+      color: var(--green-dark);
+      background: rgba(255, 255, 255, .92);
+      box-shadow: 0 4px 14px rgba(24, 53, 42, .08);
+      font: inherit;
+      font-weight: 750;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+    }
+
+    button:hover { background: var(--green-pale); }
+    button:focus-visible { outline: 3px solid #82cdb0; outline-offset: 2px; }
+
+    main {
+      width: min(1120px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 5rem;
+    }
+
+    header {
+      max-width: 850px;
+      margin: 1rem auto 2.5rem;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: .8rem;
+      border-radius: 999px;
+      padding: .35rem .75rem;
+      color: var(--green-dark);
+      background: var(--green-pale);
+      font-size: .78rem;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 6vw, 4.1rem);
+      line-height: 1.03;
+      letter-spacing: -.045em;
+    }
+
+    header p {
+      max-width: 720px;
+      margin: 1.1rem auto 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.18rem);
+    }
+
+    .warning {
+      display: flex;
+      align-items: center;
+      gap: .85rem;
+      max-width: 760px;
+      margin: 0 auto 2.2rem;
+      border: 1px solid #efd18f;
+      border-radius: 18px;
+      padding: 1rem 1.2rem;
+      background: var(--amber-pale);
+      box-shadow: var(--shadow);
+    }
+
+    .warning .icon {
+      display: grid;
+      flex: 0 0 2.45rem;
+      width: 2.45rem;
+      height: 2.45rem;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      background: var(--amber);
+      font-weight: 900;
+    }
+
+    .choice {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.3rem;
+      max-width: 900px;
+      margin: 0 auto 4.2rem;
+    }
+
+    .choice::after,
+    .step:not(:last-child)::after {
+      position: absolute;
+      left: 50%;
+      width: 2px;
+      background: var(--line);
+      content: "";
+      transform: translateX(-50%);
+    }
+
+    .choice::after { bottom: -4.2rem; height: 4.2rem; }
+
+    .choice-card {
+      border: 2px solid;
+      border-radius: 22px;
+      padding: 1.35rem;
+      background: var(--card);
+      box-shadow: var(--shadow);
+    }
+
+    .choice-card.eic { border-color: #81c7aa; }
+    .choice-card.eicr { border-color: #8cbadb; }
+    .choice-card h2 { margin: 0 0 .35rem; font-size: 1.35rem; }
+    .choice-card p { margin: 0; color: var(--muted); }
+
+    .route-label {
+      display: inline-block;
+      margin-bottom: .7rem;
+      border-radius: 999px;
+      padding: .25rem .6rem;
+      font-size: .73rem;
+      font-weight: 850;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .eic .route-label { color: var(--green-dark); background: var(--green-pale); }
+    .eicr .route-label { color: var(--blue); background: var(--blue-pale); }
+
+    .flow {
+      display: grid;
+      gap: 3.6rem;
+      max-width: 980px;
+      margin: auto;
+    }
+
+    .step {
+      position: relative;
+      border: 1px solid #d8e2dd;
+      border-radius: 26px;
+      padding: clamp(1.25rem, 3vw, 2rem);
+      background: rgba(255, 255, 255, .94);
+      box-shadow: var(--shadow);
+    }
+
+    .step:not(:last-child)::after { bottom: -3.65rem; height: 3.65rem; }
+
+    .step:not(:last-child)::before {
+      position: absolute;
+      z-index: 2;
+      bottom: -3.65rem;
+      left: calc(50% - 5px);
+      border-top: 9px solid var(--line);
+      border-right: 5px solid transparent;
+      border-left: 5px solid transparent;
+      content: "";
+    }
+
+    .step-heading {
+      display: grid;
+      grid-template-columns: 3.3rem 1fr;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 1.3rem;
+    }
+
+    .number {
+      display: grid;
+      width: 3.3rem;
+      height: 3.3rem;
+      place-items: center;
+      border-radius: 15px;
+      color: white;
+      background: var(--green);
+      font-size: 1.3rem;
+      font-weight: 900;
+      box-shadow: 0 7px 18px rgba(11, 117, 81, .25);
+    }
+
+    .step h2 { margin: 0; font-size: clamp(1.3rem, 3vw, 1.75rem); }
+    .step-heading p { margin: .2rem 0 0; color: var(--muted); }
+
+    .branches {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .branch {
+      position: relative;
+      border: 1px solid #d9e4df;
+      border-radius: 17px;
+      padding: 1.1rem;
+      background: #fbfdfc;
+    }
+
+    .branch.recommended { border-color: #6fbd9c; background: #f1fbf6; }
+    .branch h3 { margin: 0 0 .4rem; font-size: 1.02rem; }
+    .branch p { margin: 0; color: var(--muted); font-size: .92rem; }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: .55rem;
+      border-radius: 999px;
+      padding: .2rem .5rem;
+      color: var(--green-dark);
+      background: var(--green-pale);
+      font-size: .68rem;
+      font-weight: 850;
+      text-transform: uppercase;
+    }
+
+    .mini-flow {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.1rem;
+      margin-top: 1.15rem;
+    }
+
+    .mini-node {
+      position: relative;
+      display: grid;
+      min-height: 4.5rem;
+      place-items: center;
+      border-radius: 14px;
+      padding: .8rem;
+      text-align: center;
+      color: var(--green-dark);
+      background: var(--green-pale);
+      font-size: .88rem;
+      font-weight: 750;
+    }
+
+    .mini-node:not(:last-child)::after {
+      position: absolute;
+      top: 50%;
+      right: -1.55rem;
+      width: 1rem;
+      border-top: 2px solid var(--line);
+      content: "";
+    }
+
+    .mini-node:not(:last-child)::before {
+      position: absolute;
+      z-index: 2;
+      top: calc(50% - 4px);
+      right: -1.65rem;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 8px solid var(--line);
+      content: "";
+    }
+
+    .check-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .65rem 1.2rem;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 1.7rem;
+      color: var(--muted);
+    }
+
+    .check-list li::before {
+      position: absolute;
+      top: .08rem;
+      left: 0;
+      color: var(--green);
+      content: "✓";
+      font-weight: 900;
+    }
+
+    .decision {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .answer {
+      border-radius: 17px;
+      padding: 1.1rem;
+      background: #f4f8f6;
+    }
+
+    .answer strong { display: block; margin-bottom: .35rem; }
+    .answer p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .or { align-self: center; color: #7b8b84; font-size: .75rem; font-weight: 900; }
+
+    .addon {
+      border-color: #a9cee6;
+      background: linear-gradient(145deg, #fff 55%, var(--blue-pale));
+    }
+
+    .addon .number { background: var(--blue); box-shadow: 0 7px 18px rgba(23, 91, 140, .23); }
+    .addon .check-list li::before { color: var(--blue); }
+
+    .finish {
+      border: 2px solid #58ad88;
+      text-align: center;
+      background: linear-gradient(145deg, #fff, #e7f7ef);
+    }
+
+    .finish h2 { margin: 0 0 .55rem; font-size: clamp(1.45rem, 4vw, 2rem); }
+    .finish p { max-width: 720px; margin: auto; color: var(--muted); }
+
+    .scope-note {
+      margin-top: 1.4rem;
+      border-top: 1px solid #d8e2dd;
+      padding-top: 1.2rem;
+      color: var(--muted);
+      font-size: .88rem;
+    }
+
+    footer {
+      max-width: 900px;
+      margin: 2rem auto 0;
+      color: #687870;
+      text-align: center;
+      font-size: .82rem;
+    }
+
+    @media (max-width: 760px) {
+      .toolbar { position: static; justify-content: center; flex-wrap: wrap; }
+      main { padding-top: .5rem; }
+      .choice, .branches, .check-list, .decision { grid-template-columns: 1fr; }
+      .choice::after { display: none; }
+      .choice { margin-bottom: 2rem; }
+      .or { justify-self: center; }
+      .mini-flow { grid-template-columns: 1fr; gap: 1.8rem; }
+      .mini-node:not(:last-child)::after {
+        top: auto;
+        right: 50%;
+        bottom: -1.25rem;
+        width: 0;
+        height: .8rem;
+        border-top: 0;
+        border-left: 2px solid var(--line);
+      }
+      .mini-node:not(:last-child)::before {
+        top: auto;
+        right: calc(50% - 4px);
+        bottom: -1.55rem;
+        border-top: 8px solid var(--line);
+        border-right: 5px solid transparent;
+        border-bottom: 0;
+        border-left: 5px solid transparent;
+      }
+    }
+
+    @media print {
+      @page { size: A4 portrait; margin: 10mm; }
+      body { background: white; font-size: 11px; }
+      .toolbar { display: none; }
+      main { width: 100%; padding: 0; }
+      header { margin: 0 auto 1rem; }
+      h1 { font-size: 28px; }
+      header p { font-size: 11px; }
+      .warning, .choice-card, .step { box-shadow: none; }
+      .choice { margin-bottom: 2rem; }
+      .choice::after { bottom: -2rem; height: 2rem; }
+      .flow { gap: 1.2rem; }
+      .step { padding: 12px; break-inside: avoid; }
+      .step:not(:last-child)::after,
+      .step:not(:last-child)::before { display: none; }
+      .step-heading { margin-bottom: .65rem; }
+      .number { width: 2.4rem; height: 2.4rem; }
+      .step-heading { grid-template-columns: 2.4rem 1fr; }
+      .branch, .answer { padding: .65rem; }
+      footer { margin-top: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="toolbar" aria-label="Download options">
+    <button type="button" onclick="downloadPage()">↓ Download HTML</button>
+    <button type="button" onclick="window.print()">⎙ Save / print PDF</button>
+  </nav>
+
+  <main>
+    <header>
+      <span class="eyebrow">England · August 2026</span>
+      <h1>Your route to issuing<br>EICs and EICRs</h1>
+      <p>A practical qualification pathway for an electrician who has passed the 18th Edition and has on-site experience.</p>
+    </header>
+
+    <aside class="warning">
+      <span class="icon" aria-hidden="true">!</span>
+      <div><strong>18th Edition alone is not enough.</strong> It demonstrates knowledge of BS 7671, but not full installation, design or inspection-and-testing competence.</div>
+    </aside>
+
+    <section class="choice" aria-label="Choose certificate type">
+      <article class="choice-card eic">
+        <span class="route-label">Main route</span>
+        <h2>EIC</h2>
+        <p>For a new installation, new circuit, consumer-unit replacement or substantial alteration.</p>
+      </article>
+      <article class="choice-card eicr">
+        <span class="route-label">Extra requirements</span>
+        <h2>EICR</h2>
+        <p>Periodic inspection and condition reporting on an existing installation. Follow the EIC competence route, then complete Step 5.</p>
+      </article>
+    </section>
+
+    <section class="flow" aria-label="Qualification flowchart">
+      <article class="step">
+        <div class="step-heading">
+          <span class="number">1</span>
+          <div>
+            <h2>Prove core Level 3 competence</h2>
+            <p>Choose the branch matching your existing qualifications and experience.</p>
+          </div>
+        </div>
+
+        <div class="branches">
+          <section class="branch">
+            <span class="tag">Already qualified</span>
+            <h3>Recognised Level 3 + AM2</h3>
+            <p>If you already hold an accepted apprenticeship/NVQ and AM2, AM2S or AM2D, move to Step 2.</p>
+          </section>
+          <section class="branch recommended">
+            <span class="tag">Experienced route</span>
+            <h3>Experienced Worker Assessment</h3>
+            <p>Normally 5+ years for Installation Electrician or 3+ years for domestic-only work, excluding training time.</p>
+          </section>
+          <section class="branch">
+            <span class="tag">Training route</span>
+            <h3>Level 3 apprenticeship/NVQ</h3>
+            <p>Use this route when you do not meet the EWA experience or eligibility requirements.</p>
+          </section>
+        </div>
+
+        <div class="mini-flow" aria-label="Experienced worker prerequisites">
+          <div class="mini-node">Level 2 electrical qualification<br>or approved EWA entry route</div>
+          <div class="mini-node">Level 3 EWA workplace evidence<br>and technical assessment</div>
+          <div class="mini-node">AM2E (installation)<br>or AM2ED (domestic)</div>
+        </div>
+
+        <p class="scope-note"><strong>What this teaches:</strong> electrical theory, health and safety, installation, termination, design principles, fault diagnosis, inspection, testing and commissioning. The AM2 family is the final independent practical assessment.</p>
+      </article>
+
+      <article class="step">
+        <div class="step-heading">
+          <span class="number">2</span>
+          <div>
+            <h2>Keep BS 7671 knowledge current</h2>
+            <p>Your 18th Edition certificate must be checked against the version of BS 7671 you use.</p>
+          </div>
+        </div>
+
+        <ul class="check-list">
+          <li>BS 7671:2018+A4:2026 is now published.</li>
+          <li>The previous Brown Book route remains valid until 15 October 2026.</li>
+          <li>From 15 October 2026, Amendment 4 must be used.</li>
+          <li>The latest City &amp; Guilds award is 2382-26.</li>
+        </ul>
+
+        <p class="scope-note"><strong>What this teaches:</strong> how to locate and apply wiring requirements covering shock and fire protection, circuit arrangements, special installations and verification. It does not teach the complete practical trade.</p>
+      </article>
+
+      <article class="step">
+        <div class="step-heading">
+          <span class="number">3</span>
+          <div>
+            <h2>Prove initial-verification competence</h2>
+            <p>This is the inspection and testing needed to complete an EIC.</p>
+          </div>
+        </div>
+
+        <div class="decision">
+          <section class="answer">
+            <strong>Included in your core qualification?</strong>
+            <p>Your scheme/provider must confirm it meets the current EAS initial-verification requirement. No duplicate award is normally needed.</p>
+          </section>
+          <span class="or">OR</span>
+          <section class="answer">
+            <strong>Not included or uncertain?</strong>
+            <p>Complete C&amp;G 2391-50 (initial verification) or 2391-52 (combined initial and periodic), or an accepted equivalent.</p>
+          </section>
+        </div>
+
+        <p class="scope-note"><strong>What this teaches:</strong> safe instrument use, continuity, insulation resistance, polarity, earth-fault-loop and RCD testing, interpreting results, inspection schedules and correct EIC completion.</p>
+      </article>
+
+      <article class="step">
+        <div class="step-heading">
+          <span class="number">4</span>
+          <div>
+            <h2>Set up the correct certification route</h2>
+            <p>An EIC and Building Regulations compliance certificate are different documents.</p>
+          </div>
+        </div>
+
+        <div class="branches">
+          <section class="branch">
+            <span class="tag">EIC signatures</span>
+            <h3>Sign only your competence</h3>
+            <p>You may sign design, construction and inspection/testing only where you are competent for each responsibility.</p>
+          </section>
+          <section class="branch recommended">
+            <span class="tag">Domestic England</span>
+            <h3>Join a Competent Person Scheme</h3>
+            <p>NICEIC, NAPIT or another authorised scheme assesses qualifications, work, equipment, procedures and insurance.</p>
+          </section>
+          <section class="branch">
+            <span class="tag">Alternative</span>
+            <h3>Building control route</h3>
+            <p>If you are not scheme-registered, arrange building control before notifiable work, or use an authorised third-party route.</p>
+          </section>
+        </div>
+
+        <p class="scope-note"><strong>Notifiable domestic work:</strong> new circuits, consumer-unit replacement and additions or alterations in defined special locations. There is no standalone “Part P qualification”. Commercial and industrial work is outside Part P, but competence, contract, client and insurer requirements still apply.</p>
+      </article>
+
+      <article class="step addon">
+        <div class="step-heading">
+          <span class="number">5</span>
+          <div>
+            <h2>EICR add-on</h2>
+            <p>Complete this step if you also want to inspect existing installations and issue EICRs.</p>
+          </div>
+        </div>
+
+        <ul class="check-list">
+          <li>C&amp;G 2391-51 periodic inspection, 2391-52 combined, or accepted equivalent.</li>
+          <li>At least two years’ documented periodic inspection and testing experience.</li>
+          <li>Evidence of ongoing continuing professional development.</li>
+          <li>Periodic-inspection registration category when working through a certification scheme.</li>
+        </ul>
+
+        <p class="scope-note"><strong>What this teaches:</strong> assessing existing installations, limitations, safe periodic tests, deterioration and defects, C1/C2/C3/FI classifications, overall outcomes and accurate EICR completion. Updated EAS requirements apply to certified businesses from 1 October 2026.</p>
+      </article>
+
+      <article class="step finish">
+        <h2>Ready to work within your assessed scope</h2>
+        <p>Before signing independently, have your exact certificates and experience checked by your chosen EWA provider or Competent Person Scheme. Older qualifications can be accepted, but their title, date, content and practical assessment matter.</p>
+      </article>
+    </section>
+
+    <footer>
+      Guidance summary for England only. It is not a substitute for BS 7671, the EAS Qualifications Guide, scheme rules or site-specific competence assessment.
+    </footer>
+  </main>
+
+  <script>
+    function downloadPage() {
+      const html = "<!doctype html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "eic-eicr-qualification-flowchart-england.html";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
